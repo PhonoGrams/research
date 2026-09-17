@@ -1,11 +1,17 @@
 # PhonoGrams research
 
-Papers, notes, and algorithm specs behind the [PhonoGrams](https://github.com/PhonoGrams) Go libraries:
+Papers, notes, and algorithm specs behind the [PhonoGrams](https://github.com/PhonoGrams) Go libraries for **personal-name matching**, aimed at [Watchman](https://github.com/moov-io/watchman) (OFAC / AML watchlist search):
 
 - [`soft_bigram`](https://github.com/PhonoGrams/soft_bigram) — Soft-Bidist (distance)
 - [`soft-bisim`](https://github.com/PhonoGrams/soft-bisim) — Soft-Bisim (similarity)
+- [`editex`](https://github.com/PhonoGrams/editex) — Editex (Zobel & Dart 1996)
+- [`ngram`](https://github.com/PhonoGrams/ngram) — Kondrak N-SIM / N-DIST (n=2, n=3)
+- [`double_metaphone`](https://github.com/PhonoGrams/double_metaphone) — Double Metaphone (Philips 2000)
+- [`beider_morse`](https://github.com/PhonoGrams/beider_morse) — generic Beider-Morse Phonetic Matching (v1)
 
-These are character n-gram scorers for **personal-name matching**, aimed at [Watchman](https://github.com/moov-io/watchman) (OFAC / AML watchlist search). They are *not* phonetic encodings (Soundex, Double Metaphone) and *not* token-set metrics (Jaccard on words). They score two short strings as sequences of overlapping character pairs.
+The first four are character n-gram / edit-distance scorers (`Similarity` in `[0, 1]`). Double Metaphone and Beider-Morse are phonetic encodings used as Watchman boosts. They are not token-set metrics (Jaccard on words).
+
+Watchman originally had no first-party Go impl of Editex, positional Kondrak N-SIM (including n=3), Double Metaphone, or Beider-Morse. Those four now live in this org at `v0.1.0` and are wired as `?algorithm=editex`, `nsim`, `nsim-3`, `double-metaphone`, and `beider-morse`.
 
 ## Start here
 
