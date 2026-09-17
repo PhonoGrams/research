@@ -11,7 +11,7 @@ These are character n-gram scorers for **personal-name matching**, aimed at [Wat
 
 | Doc | What it is |
 |-----|------------|
-| [docs/algorithms.md](docs/algorithms.md) | Recurrences, cost scales, what the old Go code got wrong |
+| [docs/algorithms.md](docs/algorithms.md) | Recurrences and cost scales |
 | [docs/survey.md](docs/survey.md) | Digest of the paper collection and what still matters for Watchman |
 | [docs/watchman.md](docs/watchman.md) | How to plug these into Watchman without regressing Jaro-Winkler |
 | [docs/bibliography.md](docs/bibliography.md) | Full list of PDFs in `docs/papers/` |

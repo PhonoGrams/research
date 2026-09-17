@@ -39,8 +39,7 @@ A safe rollout is `algorithm=soft-bisim` as an opt-in query param, measured on `
 Watchman scores a **candidate set**, not the full list, but a busy process still does tens of thousands of token pairs per search. Constraints:
 
 - Zero heap allocs on names ≤ 64 runes (both packages).
-- No `math.Max`/`math.Min` float conversions, no `[]string` bigrams.
-- Fuzz both packages; they must never NaN (Watchman already had a Jaro-Winkler NaN bug).
+- Scores must stay in `[0, 1]` with no NaN.
 
 Bench on an M-series Mac, `go test -bench=. -benchmem`:
 

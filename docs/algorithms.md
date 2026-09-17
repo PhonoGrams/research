@@ -58,9 +58,7 @@ Same DP as N-DIST. `d_n` is replaced by a nine-case scale on the four characters
 | 8 | insert | 0.5 |
 | 9 | delete | 0.5 |
 
-Similarity `1 - D / max(n, m)`. Table 4 of the paper (spelling-error pairs) is the regression test in `soft_bigram`.
-
-The authors' C# keeps a sticky `cost2` across cells; that is a bug. Using wt8/wt9 as constant insert/delete costs reproduces Table 4 and matches the recurrence they wrote.
+Similarity `1 - D / max(n, m)`. Table 4 of the paper (spelling-error pairs) is the regression test in `soft_bigram`. This package uses constant insert/delete costs (`Insert` / `Delete`, paper wt8 / wt9).
 
 ## Soft-Bisim (Millán-Hernández et al. 2019)
 
@@ -68,12 +66,10 @@ Same DP as N-SIM. `s_n` is replaced by a nine-case *credit* scale. The published
 
 On USP-858 they report Soft-Bisim beating BI-SIM, Trigram-2B, and NED on the sum of top-4 macro F-measure. Replacing Bisim with Soft-Bisim in Kondrak's four-way average (`Prefix, NED, Aline, Bisim`) was a further small gain.
 
-## What we are not implementing
+## Scope
 
-- The papers' genetic-algorithm weight search. Watchman cannot fit weights on OFAC without a labeled pair set; OpenSanctions Pairs (Smith et al. 2026) is the first public one at scale.
-- Language detection and ad-hoc phonetic rewrites. Those were in an earlier `soft-bisim` draft, did not compile, and are not in the papers. Watchman's Soundex boost and Arabic phonetics already cover that layer.
-- Full-name scoring. Token alignment (`BestPairsJaroWinkler`) stays in Watchman.
+These libraries score two short strings. They do not search weights, apply phonetic rewrites, or align multi-token names. Watchman owns token alignment (`BestPairsJaroWinkler`), Soundex, and Arabic phonetics. Weight fitting for OFAC belongs on a labeled pair set such as OpenSanctions Pairs (Smith et al. 2026).
 
 ## Duality
 
-Soft-Bidist is the right inner scorer when the error model is edits (OCR, typos, doubled letters). Soft-Bisim is the right inner scorer when the error model is look-alike / subsequence (aliases, transliteration leftovers). Jaro-Winkler remains strong on prefix-heavy Latin names, which is why Watchman uses it today. The honest test is a three-way bake-off on OFAC true/false-positive pairs, not a paper table of spelling errors.
+Soft-Bidist is the right inner scorer when the error model is edits (OCR, typos, doubled letters). Soft-Bisim is the right inner scorer when the error model is look-alike / subsequence (aliases, transliteration leftovers). Jaro-Winkler remains strong on prefix-heavy Latin names, which is why Watchman uses it today. Compare them on OFAC true/false-positive pairs rather than the paper spelling-error tables.
